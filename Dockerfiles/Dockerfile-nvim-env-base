@@ -1,0 +1,50 @@
+FROM ubuntu:latest
+
+RUN apt-get update -y && apt-get upgrade -y && \
+    apt-get install -y software-properties-common && \
+    apt-add-repository -y ppa:neovim-ppa/stable && \
+    apt-get update -y && apt-get upgrade -y && \
+    apt-get install -y \
+    sudo \
+    apt-utils \
+    curl \
+    git \
+    language-pack-ja-base \
+    language-pack-ja \
+    neovim \
+    python2-dev \
+    python3-dev \
+    python3-pip
+
+RUN apt-get install -y build-essential libffi-dev libffi7 libgmp-dev libgmp10 libncurses-dev libncurses5 libtinfo5
+
+RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - && \
+    apt-get install -y nodejs
+RUN curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor | tee /usr/share/keyrings/yarnkey.gpg >/dev/null && \
+    apt-get install -y yarn
+RUN npm install -g npm && \
+    npm install -g neovim
+
+RUN apt-get install -y bat && \
+    if [ ! -d ${home}/.local/bin ]; then \
+        mkdir -p ${home}/.local/bin; \
+    fi && \
+    ln -sf /usr/bin/batcat ${home}/.local/bin/bat
+
+ENV user nzk
+ENV home /home/${user}
+
+RUN useradd -m ${user}
+RUN gpasswd -a ${user} sudo
+
+USER ${user}
+
+RUN echo 'export LANG=C.UTF-8' >> ${home}/.bashrc
+RUN echo 'export LANGUAGE=C.UTF-8' >> ${home}/.bashrc
+
+RUN pip3 install --upgrade neovim
+
+RUN curl -fLo ${home}/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+RUN git clone https://github.com/h-nozaki369/dotfiles.git ${home}/dotfiles && ${home}/dotfiles/install.sh
