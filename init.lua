@@ -216,16 +216,31 @@ require('lazy').setup({
     end
   },
 
-  {
-    'nvim-tree/nvim-web-devicons',
-  },
-
-  {
-    'mechatroner/rainbow_csv',
-  },
-
   { 'simeji/winresizer', },
 
+  {'ryanoasis/vim-devicons'},
+
+  {
+    'kevinhwang91/nvim-hlslens',
+    config = function ()
+      require('hlslens').setup()
+
+      local kopts = {noremap = true, silent = true}
+
+      vim.api.nvim_set_keymap('n', 'n',
+          [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
+          kopts)
+      vim.api.nvim_set_keymap('n', 'N',
+          [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
+          kopts)
+      vim.api.nvim_set_keymap('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+      vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+      vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+      vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+
+      vim.api.nvim_set_keymap('n', '<Leader>l', '<Cmd>noh<CR>', kopts)
+    end,
+  },
 }, {})
 
 -- [[ Setting options ]]
@@ -340,7 +355,7 @@ vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { de
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 
-vim.keymap.set('n', '<leader>E', ':Telescope file_browser<CR>', { desc = 'File Browser'})
+vim.keymap.set('n', '<leader>E', ':Telescope file_browser<CR>', { desc = 'File [E]xplorer'})
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
