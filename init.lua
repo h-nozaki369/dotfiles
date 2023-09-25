@@ -217,8 +217,8 @@ require('lazy').setup({
   },
 
   { 'simeji/winresizer', },
-
-  {'ryanoasis/vim-devicons'},
+  { 'ryanoasis/vim-devicons' },
+  { 'mechatroner/rainbow_csv' },
 
   {
     'kevinhwang91/nvim-hlslens',
