@@ -218,7 +218,19 @@ require('lazy').setup({
 
   { 'simeji/winresizer', },
   { 'ryanoasis/vim-devicons' },
-  { 'mechatroner/rainbow_csv' },
+  {
+    'mechatroner/rainbow_csv',
+    init = function ()
+      vim.api.nvim_create_autocmd({'BufNewFile','BufRead'}, {
+        group = vim.api.nvim_create_augroup('rfc_csv', { clear = true }),
+        pattern = '*.csv',
+        callback = function ()
+          vim.bo.filetype = 'rfc_csv'
+        end
+      })
+    end
+  },
+
 
   {
     'kevinhwang91/nvim-hlslens',
