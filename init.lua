@@ -198,6 +198,18 @@ require('lazy').setup({
   -- { import = 'custom.plugins' },
 
   {
+    "nvim-tree/nvim-tree.lua",
+    version = "*",
+    lazy = false,
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
+    config = function()
+      require("nvim-tree").setup {}
+    end,
+  },
+
+  {
     'windwp/nvim-autopairs',
     -- Optional dependency
     dependencies = { 'hrsh7th/nvim-cmp' },
@@ -236,7 +248,6 @@ require('lazy').setup({
   },
 
   { 'simeji/winresizer', },
-  { 'kyazdani42/nvim-web-devicons' },
   {
     'mechatroner/rainbow_csv',
     init = function ()
