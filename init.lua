@@ -51,6 +51,17 @@ require('lazy').setup({
 
       -- Additional lua configuration, makes nvim stuff amazing!
       'folke/neodev.nvim',
+
+      { 'SmiteshP/nvim-navic',
+        config = function ()
+          local navic = require("nvim-navic")
+          require("lspconfig").clangd.setup {
+            on_attach = function(client, bufnr)
+              navic.attach(client, bufnr)
+            end
+          }
+        end
+      },
     },
   },
 
@@ -91,6 +102,8 @@ require('lazy').setup({
       end,
     },
   },
+
+  'sindrets/diffview.nvim',
 
   {
     -- Theme inspired by Atom
