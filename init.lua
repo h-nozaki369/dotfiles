@@ -75,9 +75,15 @@ require('lazy').setup({
 
       -- Adds LSP completion capabilities
       'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-nvim-lsp-signature-help',
 
       -- Adds a number of user-friendly snippets
       'rafamadriz/friendly-snippets',
+
+      -- Add other sources
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-cmdline',
+      'hrsh7th/cmp-path',
     },
   },
 
@@ -602,8 +608,32 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
+    { name = 'nvim_lsp_signature_help' },
+    { name = 'path' },
+    { name = 'buffer' },
+    { name = 'nvim_lua' },
+    { name = 'cmdline' },
   },
 }
 
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources {
+    { name = 'cmdline' },
+    { name = 'path' },
+  },
+})
+
+cmp.setup.cmdline({ '/', '?' }, {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources {
+    {
+      name = 'buffer',
+      option = {
+        keyword_pattern = [[\k\+]],
+      },
+    },
+  },
+})
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
