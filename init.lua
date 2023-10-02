@@ -54,11 +54,11 @@ require('lazy').setup({
 
       { 'SmiteshP/nvim-navic',
         config = function ()
-          local navic = require("nvim-navic")
-          require("lspconfig").clangd.setup {
-            on_attach = function(client, bufnr)
-              navic.attach(client, bufnr)
-            end
+          require("nvim-navic").setup {
+            lsp = {
+              auto_attach = true,
+            },
+            highlight = true,
           }
         end
       },
@@ -130,6 +130,21 @@ require('lazy').setup({
         theme = 'onedark',
         component_separators = '|',
         section_separators = '',
+      },
+      sections = {
+        lualine_b = {
+          {
+            'branch',
+            'diff',
+            'diagnostics',
+            sources = { 'nvim_diagnostic', 'nvim_lsp' },
+            sections = { 'error', 'warn', 'info', 'hint' },
+            symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' },
+          },
+        }
+      },
+      tabline = {
+        lualine_b = { 'navic' }
       },
     },
   },
